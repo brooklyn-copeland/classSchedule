@@ -37,7 +37,7 @@
     if (self.detailItem) {
         self.detailDescriptionLabel.text = [self.detailItem className];
         //add week arrays
-        NSLog(@"getting start times");
+        
         NSMutableArray *mArray = [BNRClass getClassStartAndEndTimeM:[_detailItem classBlock]];
         NSLog(@"%@", [mArray objectAtIndex:0]);
         
