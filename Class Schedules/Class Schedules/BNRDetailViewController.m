@@ -25,24 +25,31 @@
         
         // Update the view.
         [self configureView];
+        
     }
 }
 
 - (void)configureView
 {
     // Update the user interface for the detail item.
-
+    NSLog(@"getting start times");
+    NSLog(@"%@", [self.detailItem className]);
     if (self.detailItem) {
-        self.detailDescriptionLabel.text = [self.detailItem description];
+        self.detailDescriptionLabel.text = [self.detailItem className];
         //add week arrays
-        NSMutableArray *mArray = [BNRClass getClassStartAndEndTimeM:self.detailItem.classBlock];
-        NSMutableArray *tArray = [BNRClass getClassStartAndEndTimeT:self.detailItem.classBlock];
-        NSMutableArray *wArray = [BNRClass getClassStartAndEndTimeW:self.detailItem.classBlock];
-        NSMutableArray *thArray = [BNRClass getClassStartAndEndTimeTH:self.detailItem.classBlock];
-        NSMutableArray *fArray = [BNRClass getClassStartAndEndTimeF:self.detailItem.classBlock];
+        NSLog(@"getting start times");
+        NSMutableArray *mArray = [BNRClass getClassStartAndEndTimeM:[_detailItem classBlock]];
+        NSLog(@"%@", [mArray objectAtIndex:0]);
+        
+        NSMutableArray *tArray = [BNRClass getClassStartAndEndTimeT:[_detailItem classBlock]];
+        NSMutableArray *wArray = [BNRClass getClassStartAndEndTimeW:[_detailItem classBlock]];
+        NSMutableArray *thArray = [BNRClass getClassStartAndEndTimeTH:[_detailItem classBlock]];
+        NSMutableArray *fArray = [BNRClass getClassStartAndEndTimeF:[_detailItem classBlock]];
+        
         //change monday label
         self.mST.text= [mArray objectAtIndex:0];
         self.mET.text = [mArray objectAtIndex:1];
+        
         //change tues label
         self.tST.text= [tArray objectAtIndex:0];
         self.tET.text = [tArray objectAtIndex:1];
@@ -55,6 +62,7 @@
         //change fri label
         self.fST.text= [fArray objectAtIndex:0];
         self.fET.text = [fArray objectAtIndex:1];
+        
     }
 }
 

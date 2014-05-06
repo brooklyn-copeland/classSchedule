@@ -9,6 +9,8 @@
 #import "BNRClass.h"
 
 @implementation BNRClass
+
+
 +(NSMutableArray *)getClassStartAndEndTimeM:(NSString *) block
 {
     NSMutableArray *startAndEnd =[[NSMutableArray alloc]init];

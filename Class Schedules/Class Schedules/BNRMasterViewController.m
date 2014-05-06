@@ -29,24 +29,39 @@
 
 - (IBAction)unwindToList:(UIStoryboardSegue *)segue
 {
+    
     // unwind segue
     NSLog(@"Segue unwound");
+    BNRAddClassViewController *source = [segue sourceViewController];
+    UITextField *className = source.inputClassName;
+    UITextField *classBlock = source.inputClassBlock;
     
-    BNRAddClassViewController *addViewController = segue.sourceViewController;
     
+
     // get the data
-    NSString *newClassName= addViewController.inputClassName.text;
+    NSString *newClassName= [className text];
     
-    NSString *newClassBlock= addViewController.inputClassBlock.text;
     
+    NSString *newClassBlock= [classBlock text];
+   
+
     // create a new class object
     BNRClass *class = [[BNRClass alloc] initWithName:newClassName andBlock:newClassBlock];
+    
+    NSLog(@"%@", class.className);
     // add it to the class array
-    [self.classes addObject:class];
+    [_classes addObject:class];
     
     
+    if (!_objects) {
+        _objects = [[NSMutableArray alloc] init];
+    }
+    [_objects insertObject:class atIndex:0];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     
     [self.tableView reloadData];
+    NSLog(@"block added");
 }
 - (NSMutableArray *)students
 {
@@ -76,14 +91,14 @@
 }
 
 - (void)insertNewObject:(id)sender
-{
+{/*
     if (!_objects) {
         _objects = [[NSMutableArray alloc] init];
     }
     [_objects insertObject:[NSDate date] atIndex:0];
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
     [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-}
+*/}
 
 #pragma mark - Table View
 
@@ -101,8 +116,9 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 
-    BNRClass *object = _classes[indexPath.row];
-    cell.textLabel.text = [object description];
+    BNRClass *object = _objects[indexPath.row];
+    
+    cell.textLabel.text = [object className];
     return cell;
 }
 
@@ -137,7 +153,15 @@
     return YES;
 }
 */
-
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"showDetail"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        BNRClass *object = _objects[indexPath.row];
+        [[segue destinationViewController] setDetailItem:object];
+    }
+}
+/*
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
@@ -149,5 +173,5 @@
         [dvc setDetailItem:object];
         
     }}
-
+*/
 @end

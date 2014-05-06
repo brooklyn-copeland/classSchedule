@@ -10,7 +10,7 @@
 #import "BNRClass.h"
 @interface BNRDetailViewController : UIViewController
 
-@property (strong, nonatomic) BNRClass* detailItem;
+@property (strong, nonatomic) id detailItem;
 
 @property (weak, nonatomic) IBOutlet UILabel *mST;
 @property (weak, nonatomic) IBOutlet UILabel *mET;
